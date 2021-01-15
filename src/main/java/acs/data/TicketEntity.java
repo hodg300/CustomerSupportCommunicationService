@@ -12,13 +12,16 @@ import acs.annotations.Email;
 public class TicketEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @NotEmpty(message="Name can not be empty")
     private String name;
 
     @Email
-    private String email;        // EMAIL VARCHAR(255)
+    private String email;// EMAIL VARCHAR(255)
+
+    @NotNull
+    private Boolean isOpen;
 
     @NotNull
     private Date timeStamp;    // CREATED_TIME_STAMP TIMESTAMP
@@ -26,17 +29,18 @@ public class TicketEntity {
     public TicketEntity() {
     }
 
-    public TicketEntity(String name, String email, @NotNull Date timeStamp) {
+    public TicketEntity(String name, String email, @NotNull Boolean isOpen, @NotNull Date timeStamp) {
         this.name = name;
         this.email = email;
+        this.isOpen = isOpen;
         this.timeStamp = timeStamp;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,6 +50,14 @@ public class TicketEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(Boolean open) {
+        isOpen = open;
     }
 
     public String getEmail() {

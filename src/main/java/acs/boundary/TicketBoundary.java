@@ -1,14 +1,13 @@
 package acs.boundary;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
 public class TicketBoundary {
 
-    private Integer id;
+    private String id;
     private String name;
     private String email;
+    private Boolean isOpen;
     private Date timeStamp;
 
     public TicketBoundary() {}
@@ -19,12 +18,20 @@ public class TicketBoundary {
         this.timeStamp = timeStamp;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(Boolean open) {
+        isOpen = open;
     }
 
     public String getName() {

@@ -12,6 +12,7 @@ public class TicketConverter {
         TicketBoundary rv = new TicketBoundary();
         rv.setId(entity.getId());
         rv.setEmail(entity.getEmail());
+        rv.setOpen(entity.getOpen());
         rv.setName(entity.getName());
         rv.setTimeStamp(entity.getTimeStamp());
 
@@ -21,6 +22,7 @@ public class TicketConverter {
     public TicketEntity toEntity(TicketBoundary boundary) {
         TicketEntity rv = new TicketEntity();
         rv.setEmail(boundary.getEmail());
+        rv.setOpen(boundary.getOpen());
         rv.setName(boundary.getName());
         rv.setTimeStamp(boundary.getTimeStamp());
         return rv;
