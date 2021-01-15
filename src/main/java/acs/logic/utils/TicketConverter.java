@@ -3,6 +3,7 @@ import acs.boundary.TicketBoundary;
 import acs.data.TicketEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -25,7 +26,7 @@ public class TicketConverter {
         rv.setEmail(boundary.getEmail());
         rv.setOpen(boundary.getOpen());
         rv.setName(boundary.getName());
-        rv.setTimeStamp(boundary.getTimeStamp());
+        rv.setTimeStamp(new Date());
         return rv;
     }
 }
