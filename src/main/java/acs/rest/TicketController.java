@@ -1,7 +1,10 @@
 package acs.rest;
 
 import acs.boundary.TicketBoundary;
+import acs.data.TicketEntity;
 import acs.logic.TicketService;
+import acs.logic.utils.FilterType;
+import acs.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +19,23 @@ public class TicketController {
     }
 
 //    //GET
-//    @RequestMapping(path = "/users/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public TicketBoundary getUser(@PathVariable("email") String email) {
-//        return ticketService.getUser(email);
-//    }
-//
+// Get all tickets by criteria type with pagination
+    @RequestMapping(path = "/tickets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public TicketBoundary[] getAllTickets(
+            @RequestParam(name = "filterType", required = false) FilterType filterType,
+            @RequestParam(name = "filterValue", required = false) String filterValue,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "sortBy", required = false, defaultValue = Constants.EMAIL) String sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") String sortOrder) {
+        return ticketService.getAllTickets(filterType, filterValue, size, page, sortBy, sortOrder).
+                toArray(new TicketBoundary[0]);
+    }
 
     //POST
     // Create ticket
     @RequestMapping(path = "/ticket", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public TicketBoundary createTicket(@RequestBody TicketBoundary ticketBoundary) {
-        System.out.println("here1");
         return this.ticketService.createTicket(ticketBoundary);
     }
 
@@ -34,7 +43,6 @@ public class TicketController {
     // Update user details
     @RequestMapping(path = "/ticket", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void closeTicket(@RequestBody TicketBoundary update) {
-        System.out.println("here2");
         this.ticketService.closeTicket(update);
     }
 
