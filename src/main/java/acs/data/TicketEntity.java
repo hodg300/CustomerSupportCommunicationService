@@ -11,8 +11,8 @@ import acs.annotations.Email;
 @Table(name="TICKETS")
 public class TicketEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private String id;
+//    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private String ticketId;
 
     @NotEmpty(message="Name can not be empty")
     private String name;
@@ -36,12 +36,12 @@ public class TicketEntity {
         this.timeStamp = timeStamp;
     }
 
-    public String getId() {
-        return id;
+    public String getTicketId() {
+        return ticketId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getName() {

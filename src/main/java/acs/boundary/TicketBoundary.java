@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class TicketBoundary {
 
-    private String id;
+    private String ticketId;
     private String name;
     private String email;
     private Boolean isOpen;
@@ -18,12 +18,12 @@ public class TicketBoundary {
         this.timeStamp = timeStamp;
     }
 
-    public String getId() {
-        return id;
+    public String getTicketId() {
+        return ticketId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public Boolean getOpen() {

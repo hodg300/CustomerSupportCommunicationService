@@ -3,6 +3,7 @@ import acs.boundary.TicketBoundary;
 import acs.data.TicketEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 
 
 @Component
@@ -10,7 +11,7 @@ public class TicketConverter {
 
     public TicketBoundary fromEntity(TicketEntity entity) {
         TicketBoundary rv = new TicketBoundary();
-        rv.setId(entity.getId());
+        rv.setTicketId(entity.getTicketId());
         rv.setEmail(entity.getEmail());
         rv.setOpen(entity.getOpen());
         rv.setName(entity.getName());
