@@ -4,26 +4,28 @@ import java.util.Date;
 
 public class TicketBoundary {
 
-    private String ticketId;
+    private String id;
     private String name;
     private String email;
     private Boolean isOpen;
-    private Date timeStamp;
+    private Date createdTimeStamp;
+    private Date closingTimeStamp;
 
     public TicketBoundary() {}
 
-    public TicketBoundary(String name, String email, Date timeStamp) {
+    public TicketBoundary(String name, String email, Date createdTimeStamp, Date closingTimeStamp) {
         this.name = name;
         this.email = email;
-        this.timeStamp = timeStamp;
+        this.createdTimeStamp = createdTimeStamp;
+        this.closingTimeStamp = closingTimeStamp;
     }
 
-    public String getTicketId() {
-        return ticketId;
+    public String getId() {
+        return id;
     }
 
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Boolean getOpen() {
@@ -50,11 +52,19 @@ public class TicketBoundary {
         this.email = email;
     }
 
-    public Date getTimeStamp() {
-        return timeStamp;
+    public Date getCreatedTimeStamp() {
+        return createdTimeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setCreatedTimeStamp(Date createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public Date getClosingTimeStamp() {
+        return closingTimeStamp;
+    }
+
+    public void setClosingTimeStamp(Date closingTimeStamp) {
+        this.closingTimeStamp = closingTimeStamp;
     }
 }

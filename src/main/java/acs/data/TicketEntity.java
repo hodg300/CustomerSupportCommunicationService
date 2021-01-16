@@ -12,7 +12,7 @@ import acs.annotations.Email;
 public class TicketEntity {
     @Id
 //    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private String ticketId;
+    private String id;
 
     @NotEmpty(message="Name can not be empty")
     private String name;
@@ -24,24 +24,27 @@ public class TicketEntity {
     private Boolean isOpen;
 
     @NotNull
-    private Date timeStamp;    // CREATED_TIME_STAMP TIMESTAMP
+    private Date createdTimeStamp;
+
+    private Date closingTimeStamp;
 
     public TicketEntity() {
     }
 
-    public TicketEntity(String name, String email, @NotNull Boolean isOpen, @NotNull Date timeStamp) {
+    public TicketEntity(String name, String email, @NotNull Boolean isOpen, @NotNull Date createdTimeStamp, Date closingTimeStamp) {
         this.name = name;
         this.email = email;
         this.isOpen = isOpen;
-        this.timeStamp = timeStamp;
+        this.createdTimeStamp = createdTimeStamp;
+        this.closingTimeStamp = closingTimeStamp;
     }
 
-    public String getTicketId() {
-        return ticketId;
+    public String getId() {
+        return id;
     }
 
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -68,11 +71,19 @@ public class TicketEntity {
         this.email = email;
     }
 
-    public Date getTimeStamp() {
-        return timeStamp;
+    public Date getCreatedTimeStamp() {
+        return createdTimeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setCreatedTimeStamp(Date createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public Date getClosingTimeStamp() {
+        return closingTimeStamp;
+    }
+
+    public void setClosingTimeStamp(Date closingTimeStamp) {
+        this.closingTimeStamp = closingTimeStamp;
     }
 }

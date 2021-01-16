@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TicketDao  extends JpaRepository<TicketEntity, String> {
     List<TicketEntity> findAllByNameLikeIgnoreCase(@Param("name") String name, Pageable pageable);
-    List<TicketEntity> findAllByTimeStampBetween(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate,Pageable pageable);
+    List<TicketEntity> findAllByCreatedTimeStampBetween(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate, Pageable pageable);
     List<TicketEntity> findAllByEmail(@Param("email") String email, Pageable pageable);
 
 }

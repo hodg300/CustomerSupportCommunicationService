@@ -5,6 +5,8 @@ import acs.data.TicketEntity;
 import acs.logic.TicketService;
 import acs.logic.utils.FilterType;
 import acs.utils.Constants;
+import acs.utils.SortBy;
+import acs.utils.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,8 @@ public class TicketController {
             @RequestParam(name = "filterValue", required = false) String filterValue,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "sortBy", required = false, defaultValue = Constants.EMAIL) String sortBy,
-            @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") String sortOrder) {
+            @RequestParam(name = "sortBy", required = false, defaultValue = "email") SortBy sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") SortOrder sortOrder) {
         return ticketService.getAllTickets(filterType, filterValue, size, page, sortBy, sortOrder).
                 toArray(new TicketBoundary[0]);
     }
