@@ -1,5 +1,4 @@
 package acs.boundary;
-
 import java.util.Date;
 
 public class CommentBoundary {
@@ -8,15 +7,15 @@ public class CommentBoundary {
     private String ticketId;
     private String email;
     private String description;
-    private Date timeStamp;
+    private Date createdTimeStamp;
 
-    public CommentBoundary() {}
+    public CommentBoundary() {
+    }
 
-    public CommentBoundary( String ticketId, String email, String description, Date timeStamp) {
+    public CommentBoundary(String ticketId, String email, String description) {
         this.ticketId = ticketId;
         this.email = email;
         this.description = description;
-        this.timeStamp = timeStamp;
     }
 
     public String getId() {
@@ -51,11 +50,11 @@ public class CommentBoundary {
         this.description = description;
     }
 
-    public Date getTimeStamp() {
-        return timeStamp;
+    public Date getCreatedTimeStamp() {
+        return createdTimeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setCreatedTimeStamp(Date createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
     }
 }

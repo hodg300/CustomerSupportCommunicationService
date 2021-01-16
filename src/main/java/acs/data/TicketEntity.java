@@ -11,7 +11,6 @@ import acs.annotations.Email;
 @Table(name="TICKETS")
 public class TicketEntity {
     @Id
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String id;
 
     @NotEmpty(message="Name can not be empty")

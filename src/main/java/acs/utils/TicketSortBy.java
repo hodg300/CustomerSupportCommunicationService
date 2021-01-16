@@ -1,6 +1,6 @@
 package acs.utils;
 
-public enum SortBy {
+public enum TicketSortBy {
 	ID,
 	EMAIL,
 	NAME,

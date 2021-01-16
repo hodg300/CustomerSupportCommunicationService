@@ -7,8 +7,9 @@ import acs.logic.TicketService;
 import acs.logic.utils.FilterType;
 import acs.logic.utils.TicketConverter;
 import acs.logic.utils.TimeEnum;
-import acs.utils.SortBy;
+import acs.utils.TicketSortBy;
 import acs.utils.SortOrder;
+import acs.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -38,7 +39,7 @@ public class DatabaseTicketService implements TicketService {
     public TicketBoundary createTicket(TicketBoundary ticketBoundary) {
         TicketEntity entity = this.converter.toEntity(ticketBoundary);
         entity.setOpen(true);
-        //entity.setCreatedTimeStamp(new Date());
+        entity.setCreatedTimeStamp(new Date());
         entity.setClosingTimeStamp(null);
         entity.setId(UUID.randomUUID().toString());
         return this.converter.fromEntity(this.ticketDao.save(entity));
@@ -57,33 +58,28 @@ public class DatabaseTicketService implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TicketBoundary> getAllTickets(FilterType filterType, String filterValue, int size, int page, SortBy sortBy, SortOrder sortOrder) {
+    public List<TicketBoundary> getAllTickets(FilterType filterType, String filterValue, int size, int page, TicketSortBy ticketSortBy, SortOrder sortOrder) {
         Sort.Direction direction = sortOrder == SortOrder.ASC ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         if (filterType != null && filterValue != null) {
-            System.out.println(filterType);
             if (filterType.equals(FilterType.BY_TICKET_NAME)) {
                 return this.ticketDao
                         .findAllByNameLikeIgnoreCase(filterValue,
-                                PageRequest.of(page, size, direction, String.valueOf(sortBy)))
+                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
             }else if (filterType.equals(FilterType.BY_CREATION)) {
                 return this.ticketDao
                         .findAllByCreatedTimeStampBetween(getFromDate(filterValue),new Date(),
-                                PageRequest.of(page, size, direction, String.valueOf(sortBy)))
+                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
             }else if (filterType.equals(FilterType.BY_EMAIL)) {
                 return this.ticketDao.findAllByEmail(filterValue,
-                        PageRequest.of(page, size, direction, String.valueOf(sortBy)))
+                        PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
             }
         }
-        System.out.println("simba");
-        System.out.println(sortBy);
-        System.out.println(String.valueOf(sortBy));
-        System.out.println(String.valueOf(sortBy).toString());
-        System.out.println(sortBy.toString());
-        return this.ticketDao.findAll(PageRequest.of(page, size, direction, sortBy.toString())).getContent()
+
+        return this.ticketDao.findAll(PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString()))).getContent()
                 .stream().map(this.converter::fromEntity).collect(Collectors.toList());
     }
 
