@@ -4,7 +4,7 @@ import acs.boundary.TicketBoundary;
 import acs.dao.TicketDao;
 import acs.data.TicketEntity;
 import acs.logic.TicketService;
-import acs.logic.utils.FilterType;
+import acs.logic.utils.TicketFilterType;
 import acs.logic.utils.TicketConverter;
 import acs.logic.utils.TimeEnum;
 import acs.utils.TicketSortBy;
@@ -58,21 +58,21 @@ public class DatabaseTicketService implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TicketBoundary> getAllTickets(FilterType filterType, String filterValue, int size, int page, TicketSortBy ticketSortBy, SortOrder sortOrder) {
+    public List<TicketBoundary> getAllTickets(TicketFilterType ticketFilterType, String filterValue, int size, int page, TicketSortBy ticketSortBy, SortOrder sortOrder) {
         Sort.Direction direction = sortOrder == SortOrder.ASC ? Sort.Direction.ASC : Sort.Direction.DESC;
 
-        if (filterType != null && filterValue != null) {
-            if (filterType.equals(FilterType.BY_TICKET_NAME)) {
+        if (ticketFilterType != null && filterValue != null) {
+            if (ticketFilterType.equals(TicketFilterType.BY_TICKET_NAME)) {
                 return this.ticketDao
                         .findAllByNameLikeIgnoreCase(filterValue,
                                 PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-            }else if (filterType.equals(FilterType.BY_CREATION)) {
+            }else if (ticketFilterType.equals(TicketFilterType.BY_CREATION)) {
                 return this.ticketDao
-                        .findAllByCreatedTimeStampBetween(getFromDate(filterValue),new Date(),
+                        .findAllByCreatedTimeStampBetween(Utils.getFromDate(filterValue),new Date(),
                                 PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-            }else if (filterType.equals(FilterType.BY_EMAIL)) {
+            }else if (ticketFilterType.equals(TicketFilterType.BY_EMAIL)) {
                 return this.ticketDao.findAllByEmail(filterValue,
                         PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(ticketSortBy.toString())))
                         .stream().map(this.converter::fromEntity).collect(Collectors.toList());
@@ -83,19 +83,4 @@ public class DatabaseTicketService implements TicketService {
                 .stream().map(this.converter::fromEntity).collect(Collectors.toList());
     }
 
-
-    private Date getFromDate(String timeEnum){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        if(timeEnum.equals(TimeEnum.LAST_DAY.toString())){
-            localDateTime = localDateTime.minusDays(1);
-        }
-        else if(timeEnum.equals(TimeEnum.LAST_WEEK.toString())){
-            localDateTime = localDateTime.minusDays(7);
-        }
-        else if(timeEnum.equals(TimeEnum.LAST_MONTH.toString())){
-            localDateTime = localDateTime.minusDays(30);
-        }
-        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-    }
 }

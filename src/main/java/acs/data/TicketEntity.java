@@ -4,7 +4,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import acs.annotations.Email;
 
 @Entity
@@ -27,7 +31,11 @@ public class TicketEntity {
 
     private Date closingTimeStamp;
 
+    @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<CommentEntity> commentsEntities;
+
     public TicketEntity() {
+        commentsEntities = new ArrayList<>();
     }
 
     public TicketEntity(String name, String email, @NotNull Boolean isOpen, @NotNull Date createdTimeStamp, Date closingTimeStamp) {
@@ -84,5 +92,17 @@ public class TicketEntity {
 
     public void setClosingTimeStamp(Date closingTimeStamp) {
         this.closingTimeStamp = closingTimeStamp;
+    }
+
+    public List<CommentEntity> getCommentsEntities() {
+        return commentsEntities;
+    }
+
+    public void setCommentsEntities(List<CommentEntity> commentsEntities) {
+        this.commentsEntities = commentsEntities;
+    }
+
+    public void addProductElement(CommentEntity comment) {
+        this.commentsEntities.add(comment);
     }
 }

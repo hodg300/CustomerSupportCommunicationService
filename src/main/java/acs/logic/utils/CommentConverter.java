@@ -13,6 +13,7 @@ public class CommentConverter {
         rv.setEmail(entity.getEmail());
         rv.setDescription(entity.getDescription());
         rv.setCreatedTimeStamp(entity.getCreatedTimeStamp());
+        rv.setTicketId(entity.getTicket().getId());
         return rv;
     }
 

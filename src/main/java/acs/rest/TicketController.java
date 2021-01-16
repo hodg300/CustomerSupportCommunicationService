@@ -2,7 +2,7 @@ package acs.rest;
 
 import acs.boundary.TicketBoundary;
 import acs.logic.TicketService;
-import acs.logic.utils.FilterType;
+import acs.logic.utils.TicketFilterType;
 import acs.utils.TicketSortBy;
 import acs.utils.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,16 @@ public class TicketController {
     }
 
 //    //GET
-// Get all tickets by criteria type with pagination
+// Get all tickets by filter type with pagination
     @RequestMapping(path = "/tickets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public TicketBoundary[] getAllTickets(
-            @RequestParam(name = "filterType", required = false) FilterType filterType,
+            @RequestParam(name = "filterType", required = false) TicketFilterType ticketFilterType,
             @RequestParam(name = "filterValue", required = false) String filterValue,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "ticketSortBy", required = false, defaultValue = "EMAIL") TicketSortBy ticketSortBy,
             @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") SortOrder sortOrder) {
-        return ticketService.getAllTickets(filterType, filterValue, size, page, ticketSortBy, sortOrder).
+        return ticketService.getAllTickets(ticketFilterType, filterValue, size, page, ticketSortBy, sortOrder).
                 toArray(new TicketBoundary[0]);
     }
 

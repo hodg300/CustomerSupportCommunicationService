@@ -4,7 +4,6 @@ import java.util.List;
 
 import acs.data.TicketEntity;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

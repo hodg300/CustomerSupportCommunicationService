@@ -1,7 +1,7 @@
 package acs.logic;
 
 import acs.boundary.TicketBoundary;
-import acs.logic.utils.FilterType;
+import acs.logic.utils.TicketFilterType;
 import acs.utils.SortOrder;
 import acs.utils.TicketSortBy;
 
@@ -12,5 +12,5 @@ public interface TicketService {
 
     void closeTicket(TicketBoundary update);
 
-    List<TicketBoundary> getAllTickets(FilterType filterType, String filterValue, int size, int page, TicketSortBy ticketSortBy, SortOrder sortOrder);
+    List<TicketBoundary> getAllTickets(TicketFilterType ticketFilterType, String filterValue, int size, int page, TicketSortBy ticketSortBy, SortOrder sortOrder);
 }

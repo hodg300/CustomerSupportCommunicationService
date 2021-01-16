@@ -3,9 +3,7 @@ package acs.data;
 import acs.annotations.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -16,9 +14,6 @@ public class CommentEntity {
     @Id
     private String id;
 
-    @NotNull
-    private String ticketId;
-
     @Email
     private String email;
 
@@ -28,11 +23,13 @@ public class CommentEntity {
     @NotNull
     private Date createdTimeStamp;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TicketEntity ticket;
+
     public CommentEntity() {
     }
 
-    public CommentEntity(@NotNull String ticketId, String email, String description) {
-        this.ticketId = ticketId;
+    public CommentEntity(String email, String description) {
         this.email = email;
         this.description = description;
     }
@@ -43,14 +40,6 @@ public class CommentEntity {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
     }
 
     public String getEmail() {
@@ -75,5 +64,13 @@ public class CommentEntity {
 
     public void setCreatedTimeStamp(Date createdTimeStamp) {
         this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public TicketEntity getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(TicketEntity ticket) {
+        this.ticket = ticket;
     }
 }
