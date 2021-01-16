@@ -42,21 +42,23 @@ public class DatabaseTicketService implements TicketService {
     @Override
     @Transactional
     public TicketBoundary createTicket(TicketBoundary ticketBoundary) {
-        this.userManagementRestService.getUser(ticketBoundary.getEmail());//The UserManagementService will throw an exception if the user doesn't exists
-        TicketEntity entity = this.converter.toEntity(ticketBoundary);
-        entity.setOpen(true);
-        entity.setCreatedTimeStamp(new Date());
-        entity.setClosingTimeStamp(null);
-        entity.setId(UUID.randomUUID().toString());
-        return this.converter.fromEntity(this.ticketDao.save(entity));
+        User user = this.userManagementRestService.getUser(ticketBoundary.getEmail());//The UserManagementService will throw an exception if the user doesn't exists
+        if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))
+                || Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.CUSTOMER.toString()))){
+            TicketEntity entity = this.converter.toEntity(ticketBoundary);
+            entity.setOpen(true);
+            entity.setCreatedTimeStamp(new Date());
+            entity.setClosingTimeStamp(null);
+            entity.setId(UUID.randomUUID().toString());
+            return this.converter.fromEntity(this.ticketDao.save(entity));
+        }
+        throw new BadRequestException("The user is not supportAgent or a customer and thus he can't open tickets");
     }
 
     @Override
     @Transactional
     public void closeTicket(TicketBoundary update) {
         User user = this.userManagementRestService.getUser(update.getEmail()); //The UserManagementService will throw an exception if the user doesn't exists
-        System.out.println("simba");
-        System.out.println(user.getRoles());
         if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))){ //Only support agents can close tickets
             TicketEntity ticketEntity = this.ticketDao.findById(update.getId()).orElseThrow(
                     () -> new RuntimeException("no ticket found by id: " + update.getId()));
@@ -65,7 +67,7 @@ public class DatabaseTicketService implements TicketService {
             this.ticketDao.save(ticketEntity);
             return;
         }
-        throw new BadRequestException("The user is not support agent and thus he can't close tickets");
+        throw new BadRequestException("The user is not supportAgent and thus he can't close tickets");
     }
 
     @Override
