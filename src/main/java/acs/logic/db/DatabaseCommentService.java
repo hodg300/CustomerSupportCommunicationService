@@ -10,8 +10,11 @@ import acs.logic.CommentService;
 import acs.logic.utils.CommentConverter;
 import acs.logic.utils.CommentFilterType;
 import acs.logic.utils.TicketFilterType;
+import acs.logic.utils.User;
+import acs.producers.UserManagementRestService;
 import acs.utils.CommentSortBy;
 import acs.utils.SortOrder;
+import acs.utils.UserRoles;
 import acs.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -30,26 +34,37 @@ public class DatabaseCommentService implements CommentService {
     private CommentDao commentDao; // Data access object
     private TicketDao ticketDao; // Data access object
     private CommentConverter converter;
+    private UserManagementRestService userManagementRestService;
 
     @Autowired
-    public DatabaseCommentService(CommentDao commentDao ,TicketDao ticketDao, CommentConverter converter) {
+    public DatabaseCommentService(CommentDao commentDao ,TicketDao ticketDao, CommentConverter converter,
+                                  UserManagementRestService userManagementRestService) {
         this.commentDao = commentDao;
         this.ticketDao = ticketDao;
         this.converter = converter;
+        this.userManagementRestService = userManagementRestService;
     }
 
     @Override
     public CommentBoundary createComment(CommentBoundary commentBoundary) {
+        User user = this.userManagementRestService.getUser(commentBoundary.getEmail());//The UserManagementService will throw an exception if the user doesn't exists
+
         CommentEntity entity = this.converter.toEntity(commentBoundary);
         TicketEntity ticketEntity = this.ticketDao.findById(commentBoundary.getTicketId()).orElseThrow(
                 () -> new RuntimeException("No ticket found by id: " + commentBoundary.getTicketId()));
-        if(ticketEntity.getOpen()){
-            entity.setTicket(ticketEntity);
-            entity.setCreatedTimeStamp(new Date());
-            entity.setId(UUID.randomUUID().toString());
-            return this.converter.fromEntity(commentDao.save(entity));
+
+        if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))
+                || (Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.CUSTOMER.toString()))
+                    && ticketEntity.getEmail().equals(commentBoundary.getEmail()))) {// Only supportAgent and original client who open the ticket can comment
+            if (ticketEntity.getOpen()) {
+                entity.setTicket(ticketEntity);
+                entity.setCreatedTimeStamp(new Date());
+                entity.setId(UUID.randomUUID().toString());
+                return this.converter.fromEntity(commentDao.save(entity));
+            }
+            throw new BadRequestException("Can't comment to close tickets");
         }
-        throw new BadRequestException("Can't comment to close tickets");
+        throw new BadRequestException("Only supportAgent and original client who open the ticket can comment");
     }
 
     @Override
