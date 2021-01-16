@@ -59,26 +59,26 @@ public class DatabaseCommentService implements CommentService {
         Sort.Direction direction = sortOrder == SortOrder.ASC ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         if (commentFilterType != null && filterValue != null) {
-//            if (commentFilterType.equals(CommentFilterType.BY_TICKET_ID)) {
-//                return this.commentDao
-//                        .findAllByNameLikeIgnoreCase(filterValue,
-//                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
-//                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-//            }
-//            else if (commentFilterType.equals(CommentFilterType.BY_CREATION)) {
-//                return this.commentDao
-//                        .findAllByCreatedTimeStampBetween(Utils.getFromDate(filterValue),new Date(),
-//                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
-//                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-//            }else if (commentFilterType.equals(CommentFilterType.BY_EMAIL)) {
-//                return this.commentDao.findAllByEmail(filterValue,
-//                        PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
-//                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-//            }
+            if (commentFilterType.equals(CommentFilterType.BY_TICKET_ID)) {
+                return this.commentDao
+                        .findAllByTicket_Id(filterValue,
+                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
+                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
+            }
+            else if (commentFilterType.equals(CommentFilterType.BY_CREATION)) {
+                return this.commentDao
+                        .findAllByCreatedTimeStampBetween(Utils.getFromDate(filterValue),new Date(),
+                                PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
+                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
+            }
+            else if (commentFilterType.equals(CommentFilterType.BY_EMAIL)) {
+                return this.commentDao.findAllByEmail(filterValue,
+                        PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString())))
+                        .stream().map(this.converter::fromEntity).collect(Collectors.toList());
+            }
         }
 
-//        return this.ticketDao.findAll(PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString()))).getContent()
-//                .stream().map(this.converter::fromEntity).collect(Collectors.toList());
-        return null;
+        return this.commentDao.findAll(PageRequest.of(page, size, direction, Utils.upperCaseToCamelCase(commentSortBy.toString()))).getContent()
+                .stream().map(this.converter::fromEntity).collect(Collectors.toList());
     }
 }
