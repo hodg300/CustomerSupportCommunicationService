@@ -1,5 +1,7 @@
 package acs.boundary;
 
+import acs.utils.ExternalServiceType;
+
 import java.util.Date;
 
 public class TicketBoundary {
@@ -8,16 +10,20 @@ public class TicketBoundary {
     private String name;
     private String email;
     private Boolean isOpen;
+    private ExternalServiceType externalServiceType;
+    private String externalId;
     private Date createdTimeStamp;
     private Date closingTimeStamp;
 
     public TicketBoundary() {}
 
-    public TicketBoundary(String name, String email, Date createdTimeStamp, Date closingTimeStamp) {
+    public TicketBoundary(String name, String email, ExternalServiceType externalServiceType, Date createdTimeStamp, Date closingTimeStamp, String externalId) {
         this.name = name;
         this.email = email;
-        this.createdTimeStamp = createdTimeStamp;
         this.closingTimeStamp = closingTimeStamp;
+        this.externalId = externalId;
+        this.externalServiceType = externalServiceType;
+        this.createdTimeStamp = createdTimeStamp;
     }
 
     public String getId() {
@@ -50,6 +56,22 @@ public class TicketBoundary {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ExternalServiceType getExternalServiceType() {
+        return externalServiceType;
+    }
+
+    public void setExternalServiceType(ExternalServiceType externalServiceType) {
+        this.externalServiceType = externalServiceType;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public Date getCreatedTimeStamp() {

@@ -1,5 +1,6 @@
 package acs.data;
 
+import acs.utils.ExternalServiceType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -25,6 +26,12 @@ public class TicketEntity {
 
     @NotNull
     private Boolean isOpen;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ExternalServiceType externalServiceType;
+
+    private String externalId;
 
     @NotNull
     private Date createdTimeStamp;
@@ -76,6 +83,22 @@ public class TicketEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ExternalServiceType getExternalServiceType() {
+        return externalServiceType;
+    }
+
+    public void setExternalServiceType(ExternalServiceType externalServiceType) {
+        this.externalServiceType = externalServiceType;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public Date getCreatedTimeStamp() {
