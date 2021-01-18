@@ -8,20 +8,15 @@ import acs.logic.TicketService;
 import acs.logic.utils.TicketFilterType;
 import acs.logic.utils.TicketConverter;
 import acs.logic.utils.User;
+import acs.producers.GeneralRestService;
 import acs.producers.UserManagementRestService;
-import acs.utils.TicketSortBy;
-import acs.utils.SortOrder;
-import acs.utils.UserRoles;
-import acs.utils.Utils;
+import acs.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,19 +25,30 @@ public class DatabaseTicketService implements TicketService {
     private TicketDao ticketDao; // Data access object
     private TicketConverter converter;
     private UserManagementRestService userManagementRestService;
+    private GeneralRestService generalRestService;
 
     @Autowired
     public DatabaseTicketService(TicketDao ticketDao, TicketConverter converter,
-                                 UserManagementRestService userManagementRestService) {
+                                 UserManagementRestService userManagementRestService, GeneralRestService generalRestService) {
         this.ticketDao = ticketDao;
         this.converter = converter;
         this.userManagementRestService = userManagementRestService;
+        this.generalRestService = generalRestService;
     }
 
     @Override
     @Transactional
     public TicketBoundary createTicket(TicketBoundary ticketBoundary) {
         User user = this.userManagementRestService.getUser(ticketBoundary.getEmail());//The UserManagementService will throw an exception if the user doesn't exists
+        if(ticketBoundary.getExternalServiceType() == null) {
+            ticketBoundary.setExternalServiceType(ExternalServiceType.GENERAL);
+        }
+        if (ticketBoundary.getExternalServiceType() != ExternalServiceType.GENERAL){
+            this.generalRestService.checkIfExists(ticketBoundary.getExternalId(), ticketBoundary.getExternalServiceType());
+            //The GeneralRestService will throw an exception if the externalId doesn't exists in the external service
+        } else {
+            ticketBoundary.setExternalId(null);
+        }
         if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))
                 || Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.CUSTOMER.toString()))){
             TicketEntity entity = this.converter.toEntity(ticketBoundary);
