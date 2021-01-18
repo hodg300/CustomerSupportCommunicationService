@@ -1,12 +1,9 @@
 package acs.rest;
-import acs.boundary.TicketBoundary;
 import acs.logic.utils.CommentFilterType;
-import acs.logic.utils.TicketFilterType;
 import acs.utils.CommentSortBy;
 import acs.utils.SortOrder;
 import acs.boundary.CommentBoundary;
 import acs.logic.CommentService;
-import acs.utils.TicketSortBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

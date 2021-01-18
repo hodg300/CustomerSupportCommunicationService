@@ -5,11 +5,9 @@ public class UserFullName {
 	private String last;
 	
 	public UserFullName() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public UserFullName(String first, String last) {
-		// TODO Auto-generated constructor stub
 		this.first = first;
 		this.last = last;
 	}

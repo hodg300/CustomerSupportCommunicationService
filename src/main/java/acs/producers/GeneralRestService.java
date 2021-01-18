@@ -1,9 +1,10 @@
 package acs.producers;
+
+import acs.exceptions.BadRequestException;
 import acs.utils.ExternalServiceType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import javax.annotation.PostConstruct;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import java.util.Map;
 public class GeneralRestService {
 
     private RestTemplate restTemplate;
-    private String url;
+
+    @Value("${baseUrl}")
+    private String baseUrl;
 
     @Value("${shoppingCatalogService.path}")
     private String shoppingCatalogServicePath;
@@ -33,39 +36,38 @@ public class GeneralRestService {
     @Value("${blogCommentsService.port}")
     private String blogCommentsServicePort;
 
-//    @Value("${userManagementService.port:8081}")
-//    public void setPort(String port) {
-//        this.port = Integer.parseInt(port);
-//    }
-
     @PostConstruct
     public void init() {
         this.restTemplate = new RestTemplate();
-
-        // TODO !!!! configure this url using service configuration
-        this.url = "http://localhost";
     }
 
-    public Object checkIfExists(String id, ExternalServiceType externalServiceType){
+    public Map<String, Object> checkIfExists(String id, ExternalServiceType externalServiceType){
 
-        switch (externalServiceType){
+        Map<String, Object> map;
 
+        switch (externalServiceType) {
             case SHOPPING_CATALOG_SERVICE:
-                System.out.println(this.url + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + id);
-                return this.restTemplate.getForObject(this.url + ":{port}/{subUrl}/{id}", Object.class, shoppingCatalogServicePort, shoppingCatalogServicePath, id);
-
+                map = this.restTemplate.getForObject(baseUrl + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + id, Map.class);
+                break;
             case TRACKING_SERVICE:
-                return this.restTemplate.getForObject(this.url + ":{port}/{subUrl}/{id}", Map.class, trackingServicePort, trackingServicePath, id);
-
-            case TRANSACTION_SERVICE:
-                return this.restTemplate.getForObject(this.url + ":{port}/{subUrl}/{id}", Map.class, productReturnAndRefundsServicePort, productReturnAndRefundsServicePath, id);
-
+                map =  this.restTemplate.getForObject(baseUrl + ":" + trackingServicePort + "/" + trackingServicePath + "/" + id, Map.class);
+                break;
+            case PRODUCT_RETURN_AND_REFUND:
+                map = this.restTemplate.getForObject(baseUrl + ":" + productReturnAndRefundsServicePort + "/" + productReturnAndRefundsServicePath + "/" + id, Map.class);
+                break;
             case BLOG_COMMENTS_SERVICE:
-                return this.restTemplate.getForObject(this.url + ":{port}/{subUrl}/{id}", Map.class, blogCommentsServicePort, blogCommentsServicePath, id);
-
+                map = this.restTemplate.getForObject(baseUrl + ":" + blogCommentsServicePort + "/" + blogCommentsServicePath + "/" + id, Map.class);
+                break;
+            default:
+                throw new BadRequestException("Unexpected value: " + externalServiceType);
         }
 
-        return null;
+        // in case the external services didn't throw an exception when not found, but return null or empty map
+        if (map == null || map.keySet().size() == 0) {
+            throw new BadRequestException("The externalId: " + id + " was not found in " + externalServiceType.toString());
+        }
 
+        return map;
     }
+
 }
