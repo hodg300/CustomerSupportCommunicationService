@@ -59,7 +59,7 @@ public class GeneralRestService {
                 map = this.restTemplate.getForObject(baseUrl + ":" + blogCommentsServicePort + "/" + blogCommentsServicePath + "/" + id, Map.class);
                 break;
             default:
-                throw new BadRequestException("Unexpected value: " + externalServiceType);
+                throw new BadRequestException("Unexpected value: " + externalServiceType + ", please choose one of the defined ExternalServiceTypes from the documentation");
         }
 
         // in case the external services didn't throw an exception when not found, but return null or empty map
