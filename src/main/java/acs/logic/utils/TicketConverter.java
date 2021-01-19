@@ -13,7 +13,7 @@ public class TicketConverter {
         rv.setEmail(entity.getEmail());
         rv.setOpen(entity.getOpen());
         rv.setName(entity.getName());
-        rv.setExternalServiceType(entity.getExternalServiceType());
+        rv.setSubjectType(entity.getSubjectType());
         rv.setExternalId(entity.getExternalId());
         rv.setCreatedTimeStamp(entity.getCreatedTimeStamp());
         rv.setClosingTimeStamp(entity.getClosingTimeStamp());
@@ -25,7 +25,7 @@ public class TicketConverter {
         rv.setEmail(boundary.getEmail());
         rv.setOpen(boundary.getOpen());
         rv.setName(boundary.getName());
-        rv.setExternalServiceType(boundary.getExternalServiceType());
+        rv.setSubjectType(boundary.getSubjectType());
         rv.setExternalId(boundary.getExternalId());
         rv.setCreatedTimeStamp(boundary.getCreatedTimeStamp());
         rv.setClosingTimeStamp(boundary.getClosingTimeStamp());

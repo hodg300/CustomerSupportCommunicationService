@@ -39,11 +39,11 @@ public class DatabaseTicketService implements TicketService {
     @Transactional
     public TicketBoundary createTicket(TicketBoundary ticketBoundary) {
         User user = this.userManagementRestService.getUser(ticketBoundary.getEmail());//The UserManagementService will throw an exception if the user doesn't exists
-        if(ticketBoundary.getExternalServiceType() == null) {
-            ticketBoundary.setExternalServiceType(ExternalServiceType.GENERAL);
+        if(ticketBoundary.getSubjectType() == null) {
+            ticketBoundary.setSubjectType(SubjectType.GENERAL);
         }
-        if (ticketBoundary.getExternalServiceType() != ExternalServiceType.GENERAL){
-            this.generalRestService.checkIfExists(ticketBoundary.getExternalId(), ticketBoundary.getExternalServiceType());
+        if (ticketBoundary.getSubjectType() != SubjectType.GENERAL){
+            this.generalRestService.checkIfExists(ticketBoundary.getExternalId(), ticketBoundary.getSubjectType());
             //The GeneralRestService will throw an exception if the externalId doesn't exists in the external service
         } else {
             ticketBoundary.setExternalId(null);

@@ -1,6 +1,6 @@
 package acs.boundary;
 
-import acs.utils.ExternalServiceType;
+import acs.utils.SubjectType;
 
 import java.util.Date;
 
@@ -10,19 +10,19 @@ public class TicketBoundary {
     private String name;
     private String email;
     private Boolean isOpen;
-    private ExternalServiceType externalServiceType;
+    private SubjectType subjectType;
     private String externalId;
     private Date createdTimeStamp;
     private Date closingTimeStamp;
 
     public TicketBoundary() {}
 
-    public TicketBoundary(String name, String email, ExternalServiceType externalServiceType, Date createdTimeStamp, Date closingTimeStamp, String externalId) {
+    public TicketBoundary(String name, String email, SubjectType subjectType, Date createdTimeStamp, Date closingTimeStamp, String externalId) {
         this.name = name;
         this.email = email;
         this.closingTimeStamp = closingTimeStamp;
         this.externalId = externalId;
-        this.externalServiceType = externalServiceType;
+        this.subjectType = subjectType;
         this.createdTimeStamp = createdTimeStamp;
     }
 
@@ -58,12 +58,12 @@ public class TicketBoundary {
         this.email = email;
     }
 
-    public ExternalServiceType getExternalServiceType() {
-        return externalServiceType;
+    public SubjectType getSubjectType() {
+        return subjectType;
     }
 
-    public void setExternalServiceType(ExternalServiceType externalServiceType) {
-        this.externalServiceType = externalServiceType;
+    public void setSubjectType(SubjectType subjectType) {
+        this.subjectType = subjectType;
     }
 
     public String getExternalId() {
@@ -97,7 +97,7 @@ public class TicketBoundary {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", isOpen=" + isOpen +
-                ", externalServiceType=" + externalServiceType +
+                ", externalServiceType=" + subjectType +
                 ", externalId='" + externalId + '\'' +
                 ", createdTimeStamp=" + createdTimeStamp +
                 ", closingTimeStamp=" + closingTimeStamp +

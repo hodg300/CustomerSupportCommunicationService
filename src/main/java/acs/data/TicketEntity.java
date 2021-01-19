@@ -1,6 +1,6 @@
 package acs.data;
 
-import acs.utils.ExternalServiceType;
+import acs.utils.SubjectType;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,13 +26,15 @@ public class TicketEntity {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ExternalServiceType externalServiceType;
+    private SubjectType subjectType;
 
     private String externalId;
 
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdTimeStamp;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date closingTimeStamp;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -82,12 +84,12 @@ public class TicketEntity {
         this.email = email;
     }
 
-    public ExternalServiceType getExternalServiceType() {
-        return externalServiceType;
+    public SubjectType getSubjectType() {
+        return subjectType;
     }
 
-    public void setExternalServiceType(ExternalServiceType externalServiceType) {
-        this.externalServiceType = externalServiceType;
+    public void setSubjectType(SubjectType subjectType) {
+        this.subjectType = subjectType;
     }
 
     public String getExternalId() {

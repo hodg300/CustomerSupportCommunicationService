@@ -1,10 +1,10 @@
 package acs.utils;
 
-public enum ExternalServiceType {
+public enum SubjectType {
     GENERAL,
     SHOPPING_CATALOG_SERVICE,
     PRODUCT_RETURN_AND_REFUND,
     TRACKING_SERVICE,
     BLOG_COMMENTS_SERVICE,
-    SHOPPING_CART_SERVICE
+    CUSTOMER_SHOPPING_CART_SERVICE
 }
