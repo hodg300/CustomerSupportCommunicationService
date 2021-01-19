@@ -1,4 +1,4 @@
-package acs.producers;
+package acs.externalServices;
 
 import acs.exceptions.BadRequestException;
 import acs.utils.ExternalServiceType;
@@ -36,6 +36,11 @@ public class GeneralRestService {
     @Value("${blogCommentsService.port}")
     private String blogCommentsServicePort;
 
+    @Value("${shoppingCartService.path}")
+    private String shoppingCartServicePath;
+    @Value("${shoppingCartService.port}")
+    private String shoppingCartServicePort;
+
     @PostConstruct
     public void init() {
         this.restTemplate = new RestTemplate();
@@ -57,6 +62,9 @@ public class GeneralRestService {
                 break;
             case BLOG_COMMENTS_SERVICE:
                 map = this.restTemplate.getForObject(baseUrl + ":" + blogCommentsServicePort + "/" + blogCommentsServicePath + "/" + id, Map.class);
+                break;
+            case SHOPPING_CART_SERVICE:
+                map = this.restTemplate.getForObject(baseUrl + ":" + shoppingCartServicePort + "/" + shoppingCartServicePath + "/" + id, Map.class);
                 break;
             default:
                 throw new BadRequestException("Unexpected value: " + externalServiceType + ", please choose one of the defined ExternalServiceTypes from the documentation");

@@ -1,4 +1,4 @@
-package acs.producers;
+package acs.externalServices;
 
 import acs.logic.utils.User;
 import org.springframework.beans.factory.annotation.Value;

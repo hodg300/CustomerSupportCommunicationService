@@ -10,7 +10,7 @@ import acs.logic.CommentService;
 import acs.logic.utils.CommentConverter;
 import acs.logic.utils.CommentFilterType;
 import acs.logic.utils.User;
-import acs.producers.UserManagementRestService;
+import acs.externalServices.UserManagementRestService;
 import acs.utils.CommentSortBy;
 import acs.utils.SortOrder;
 import acs.utils.UserRoles;
