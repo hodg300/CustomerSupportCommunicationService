@@ -47,7 +47,4 @@ public class TicketController {
         this.ticketService.closeTicket(update);
     }
 
-
-
-
 }
