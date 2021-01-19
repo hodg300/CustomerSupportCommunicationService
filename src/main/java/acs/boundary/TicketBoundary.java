@@ -89,4 +89,18 @@ public class TicketBoundary {
     public void setClosingTimeStamp(Date closingTimeStamp) {
         this.closingTimeStamp = closingTimeStamp;
     }
+
+    @Override
+    public String toString() {
+        return "TicketBoundary{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", isOpen=" + isOpen +
+                ", externalServiceType=" + externalServiceType +
+                ", externalId='" + externalId + '\'' +
+                ", createdTimeStamp=" + createdTimeStamp +
+                ", closingTimeStamp=" + closingTimeStamp +
+                '}';
+    }
 }
