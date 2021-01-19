@@ -2,7 +2,6 @@ package acs.data;
 
 import acs.annotations.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;

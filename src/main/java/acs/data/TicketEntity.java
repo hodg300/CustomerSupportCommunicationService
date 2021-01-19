@@ -2,14 +2,11 @@ package acs.data;
 
 import acs.utils.ExternalServiceType;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
 import acs.annotations.Email;
 
 @Entity

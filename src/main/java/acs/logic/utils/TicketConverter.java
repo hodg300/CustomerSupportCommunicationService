@@ -1,9 +1,8 @@
 package acs.logic.utils;
+
 import acs.boundary.TicketBoundary;
 import acs.data.TicketEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class TicketConverter {

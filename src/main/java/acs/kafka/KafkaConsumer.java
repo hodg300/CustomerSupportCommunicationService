@@ -23,17 +23,12 @@ public class KafkaConsumer {
 
     @Bean
     public Consumer<TicketBoundary> createTicketConsumer(){
-        System.err.println("simba");
         return ticket -> ticketService.createTicket(ticket);
-//        return ticket -> System.err.println(ticket);
-
     }
 
     @Bean
     public Consumer<CommentBoundary> createCommentConsumer(){
-        System.out.println("simba");
         return comment -> commentService.createComment(comment);
-//        return r -> System.err.println("im in createCommentConsumer - "+r);
     }
 
 }

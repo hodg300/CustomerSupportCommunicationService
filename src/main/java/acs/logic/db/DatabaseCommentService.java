@@ -9,7 +9,6 @@ import acs.exceptions.BadRequestException;
 import acs.logic.CommentService;
 import acs.logic.utils.CommentConverter;
 import acs.logic.utils.CommentFilterType;
-import acs.logic.utils.TicketFilterType;
 import acs.logic.utils.User;
 import acs.producers.UserManagementRestService;
 import acs.utils.CommentSortBy;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
