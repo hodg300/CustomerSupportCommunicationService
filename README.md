@@ -10,7 +10,7 @@ This is a customer service, which will allow the opening of tickets for the comp
 * IDE that support Spring apps
 * Gradle
 
-* USER MANAGMENT SERVICE **(Requeird for creating tickets and comments)** - The project we implemented during the course. We will check if users exists in the service and having the correct roles (customer/supportAgent)
+* USER MANAGEMENT SERVICE **(Required for creating tickets and comments)** - The project we implemented during the course. We will check if users exists in the service and having the correct roles (customer/supportAgent)
 
 * CUSTOMER SHOPPING CART SERVICE - Daniel Sasson's Team Project. It will be possible to open a ticket for a bug in a shopping cart or any other complaint according to its shoppingCartId.
 
