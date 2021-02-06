@@ -31,8 +31,9 @@ Download Postgres Docker:
 
 Run Postgres Docker:
 
-    docker run -d -p 5432-5432:5432-5432 --name customerSupportCommunication postgres:latest
+    docker run -d -p 5433:5432 --name customerSupportCommunication -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=customerSupportCommunication postgres:latest
 
+make sure port 5433 is not taken by another app.
 
 # Build
 
@@ -47,13 +48,13 @@ Run gradle build for building the project:
 
 Run the main function in src -> main -> java -> acs-> CustomerSupportCommunicationService
     
-Make sure that the server is on listing to port 8082 on localhost:
+Make sure the server is listing to port 8082 on localhost:
 
     http://localhost:8082
     
 # External Services Communication
 
-The default URL of each service is http://localhost and it can be chnage in the application.properties file.
+The default URL of each service is http://localhost, but it can be change in the application.properties file.
 
 userManagementService.port=8081
 
