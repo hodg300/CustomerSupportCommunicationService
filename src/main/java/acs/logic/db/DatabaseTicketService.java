@@ -48,8 +48,7 @@ public class DatabaseTicketService implements TicketService {
         } else {
             ticketBoundary.setExternalId(null);
         }
-        if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))
-                || Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.CUSTOMER.toString()))){
+        if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.CUSTOMER.toString()))){
             TicketEntity entity = this.converter.toEntity(ticketBoundary);
             entity.setOpen(true);
             entity.setCreatedTimeStamp(new Date());
@@ -57,7 +56,7 @@ public class DatabaseTicketService implements TicketService {
             entity.setId(UUID.randomUUID().toString());
             return this.converter.fromEntity(this.ticketDao.save(entity));
         }
-        throw new BadRequestException("The user is not supportAgent or a customer and thus he can't open tickets");
+        throw new BadRequestException("The user is not a customer and thus he can't open tickets");
     }
 
     @Override
@@ -67,10 +66,13 @@ public class DatabaseTicketService implements TicketService {
         if(Arrays.asList(user.getRoles()).contains(Utils.upperCaseToCamelCase(UserRoles.SUPPORT_AGENT.toString()))){ //Only support agents can close tickets
             TicketEntity ticketEntity = this.ticketDao.findById(update.getId()).orElseThrow(
                     () -> new RuntimeException("no ticket found by id: " + update.getId()));
-            ticketEntity.setOpen(false);
-            ticketEntity.setClosingTimeStamp(new Date());
-            this.ticketDao.save(ticketEntity);
-            return;
+            if(ticketEntity.getOpen()) {
+                ticketEntity.setOpen(false);
+                ticketEntity.setClosingTimeStamp(new Date());
+                this.ticketDao.save(ticketEntity);
+                return;
+            }
+            throw new BadRequestException("The ticket already closed");
         }
         throw new BadRequestException("The user is not supportAgent and thus he can't close tickets");
     }
