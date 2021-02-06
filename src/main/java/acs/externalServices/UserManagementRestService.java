@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 public class UserManagementRestService {
     private RestTemplate restTemplate;
 
-    @Value("${baseUrl}")
-    private String baseUrl;
+    @Value("${userManagementService.url}")
+    private String userManagementServiceUrl;
 
     @Value("${userManagementService.path}")
     private String shoppingCatalogServicePath;
@@ -24,7 +24,7 @@ public class UserManagementRestService {
     }
 
     public User getUser(String email){
-        return this.restTemplate.getForObject(baseUrl + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + email, User.class);
+        return this.restTemplate.getForObject(userManagementServiceUrl + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + email, User.class);
     }
 
 
