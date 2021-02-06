@@ -13,29 +13,40 @@ public class GeneralRestService {
 
     private RestTemplate restTemplate;
 
-    @Value("${baseUrl}")
-    private String baseUrl;
-
+    @Value("${shoppingCatalogService.url}")
+    private String shoppingCatalogServiceUrl;
     @Value("${shoppingCatalogService.path}")
     private String shoppingCatalogServicePath;
     @Value("${shoppingCatalogService.port}")
     private String shoppingCatalogServicePort;
 
+
+    @Value("${productReturnAndRefundsService.url}")
+    private String productReturnAndRefundsServiceUrl;
     @Value("${productReturnAndRefundsService.path}")
     private String productReturnAndRefundsServicePath;
     @Value("${productReturnAndRefundsService.port}")
     private String productReturnAndRefundsServicePort;
 
+
+    @Value("${trackingService.url}")
+    private String trackingServiceUrl;
     @Value("${trackingService.path}")
     private String trackingServicePath;
     @Value("${trackingService.port}")
     private String trackingServicePort;
 
+
+    @Value("${blogCommentsService.url}")
+    private String blogCommentsServiceUrl;
     @Value("${blogCommentsService.path}")
     private String blogCommentsServicePath;
     @Value("${blogCommentsService.port}")
     private String blogCommentsServicePort;
 
+
+    @Value("${shoppingCartService.url}")
+    private String shoppingCartServiceUrl;
     @Value("${shoppingCartService.path}")
     private String shoppingCartServicePath;
     @Value("${shoppingCartService.port}")
@@ -52,19 +63,19 @@ public class GeneralRestService {
 
         switch (subjectType) {
             case SHOPPING_CATALOG_SERVICE:
-                map = this.restTemplate.getForObject(baseUrl + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + id, Map.class);
-                break;
-            case TRACKING_SERVICE:
-                map =  this.restTemplate.getForObject(baseUrl + ":" + trackingServicePort + "/" + trackingServicePath + "/" + id, Map.class);
+                map = this.restTemplate.getForObject(shoppingCatalogServiceUrl + ":" + shoppingCatalogServicePort + "/" + shoppingCatalogServicePath + "/" + id, Map.class);
                 break;
             case PRODUCT_RETURN_AND_REFUND:
-                map = this.restTemplate.getForObject(baseUrl + ":" + productReturnAndRefundsServicePort + "/" + productReturnAndRefundsServicePath + "/" + id, Map.class);
+                map = this.restTemplate.getForObject(productReturnAndRefundsServiceUrl + ":" + productReturnAndRefundsServicePort + "/" + productReturnAndRefundsServicePath + "/" + id, Map.class);
+                break;
+            case TRACKING_SERVICE:
+                map =  this.restTemplate.getForObject(trackingServiceUrl + ":" + trackingServicePort + "/" + trackingServicePath + "/" + id, Map.class);
                 break;
             case BLOG_COMMENTS_SERVICE:
-                map = this.restTemplate.getForObject(baseUrl + ":" + blogCommentsServicePort + "/" + blogCommentsServicePath + "/" + id, Map.class);
+                map = this.restTemplate.getForObject(blogCommentsServiceUrl + ":" + blogCommentsServicePort + "/" + blogCommentsServicePath + "/" + id, Map.class);
                 break;
             case CUSTOMER_SHOPPING_CART_SERVICE:
-                map = this.restTemplate.getForObject(baseUrl + ":" + shoppingCartServicePort + "/" + shoppingCartServicePath + "/" + id, Map.class);
+                map = this.restTemplate.getForObject(shoppingCartServiceUrl + ":" + shoppingCartServicePort + "/" + shoppingCartServicePath + "/" + id, Map.class);
                 break;
             default:
                 throw new BadRequestException("Unexpected value: " + subjectType + ", please choose one of the defined ExternalServiceTypes from the documentation");
