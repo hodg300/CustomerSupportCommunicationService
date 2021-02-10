@@ -9,6 +9,7 @@ This is a customer service, which will allow the opening of tickets for the comp
 * JDK 6 or later
 * IDE that support Spring apps
 * Gradle
+* Kafka
 
 * USER MANAGEMENT SERVICE **(Required for creating tickets and comments)** - The project we implemented during the course. We will check if users exists in the service and having the correct roles (customer/supportAgent)
 
@@ -22,6 +23,17 @@ This is a customer service, which will allow the opening of tickets for the comp
 
 * SHOPPING CATALOG SERVICE - The project we implemented during the course. It will be possible to open a ticket for a defective or defective product according to its productID.
 
+# Kafka
+
+Follow the following guide:
+
+https://kafka.apache.org/quickstart
+
+After uploading the servers, create two topics: 
+
+1. ticket
+
+2. comment 
 
 # Docker
 
@@ -75,3 +87,16 @@ After the server is running, you can use Swagger to send request to the service:
 ```
 http://localhost:8082/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
 ```
+You can also create Kafka producer to create a ticket or a comment.
+
+Example of ticket creation with Kafka producer:
+
+         ➜ kafka_2.13-2.7.0 bin/kafka-console-producer.sh --topic ticket --bootstrap-server localhost:9092
+         
+        >{"id":"string","name":"string","email":"mor@g.g","subjectType":"GENERAL","externalId":"string","createdTimeStamp":"2021-02-10T14:53:13.878Z","closingTimeStamp":"2021-02-10T14:53:13.878Z","open":true}
+        
+Example of comment creation with Kafka producer:
+
+         ➜  kafka_2.13-2.7.0 bin/kafka-console-producer.sh --topic comment --bootstrap-server localhost:9092
+         
+        >{"id":"string","ticketId":"e413a69d-bfbd-416a-947b-f64cdfae7b0c","email":"mor@g.g","description":"string","createdTimeStamp":"2021-02-10T15:02:30.034Z"}
